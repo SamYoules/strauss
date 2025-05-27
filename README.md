@@ -62,7 +62,7 @@ with or without the `-e` option depending on whether you want to edit the *STRAU
 
 ***Note***: The `coqui` AI TTS is currently supported for python versions `<= 3.12` - If you are running `python==3.13`, you can downgrade to use this extra.
 
-## Citing *STRAUSS*
+## Citing STRAUSS
 
 Please cite *STRAUSS* using the JOSS [paper](https://joss.theoj.org/papers/10.21105/joss.07875):
 
@@ -81,7 +81,9 @@ Please cite *STRAUSS* using the JOSS [paper](https://joss.theoj.org/papers/10.21
 }
 ```     
 
-If you have found *STRAUSS* useful, please star the repository on GitHub. 
+If you have found *STRAUSS* useful, please star the repository on [GitHub](https://github.com/james-trayford/strauss)! 
+
+<a class="github-button" href="https://github.com/james-trayford/strauss" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-star" data-size="large" aria-label="Star james-trayford/strauss on GitHub">Star</a>
 
 ## Acknowledgments
 *STRAUSS* is developed and provided free and open source, supported by a [UKRI Early Stage Research and Development Award](https://www.ukri.org/opportunity/early-stage-research-and-development-scheme/), grant code ST/X004651/1.
