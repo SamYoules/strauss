@@ -62,7 +62,30 @@ with or without the `-e` option depending on whether you want to edit the *STRAU
 
 ***Note***: The `coqui` AI TTS is currently supported for python versions `<= 3.12` - If you are running `python==3.13`, you can downgrade to use this extra.
 
+## Citing STRAUSS
+
+Please cite *STRAUSS* using the JOSS [paper](https://joss.theoj.org/papers/10.21105/joss.07875):
+
+```
+@article{Trayford2025,
+  doi = {10.21105/joss.07875},
+  url = {https://doi.org/10.21105/joss.07875},
+  year = {2025},
+  publisher = {The Open Journal}, 
+  volume = {10},
+  number = {109},
+  pages = {7875},
+  author = {James W. Trayford and Samantha Youles and Chris Harrison and Rose Shepherd and Nicolas Bonne},
+  title = {strauss: Sonification Tools and Resources for Analysis Using Sound Synthesis},
+  journal = {Journal of Open Source Software}
+}
+```     
+
+If you have found *STRAUSS* useful, please star the repository on [GitHub](https://github.com/james-trayford/strauss)! 
+
+
 ## Acknowledgments
 *STRAUSS* is developed and provided free and open source, supported by a [UKRI Early Stage Research and Development Award](https://www.ukri.org/opportunity/early-stage-research-and-development-scheme/), grant code ST/X004651/1.
 
 The *STRAUSS* code has also benefited from funding via an [Royal Astronomical Society Education & Outreach grant award](https://ras.ac.uk/awards-and-grants/outreach/education-outreach-small-grants-scheme), providing hardware and software for sound development and spatialisation testing.
+
