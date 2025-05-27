@@ -83,9 +83,9 @@ Please cite *STRAUSS* using the JOSS [paper](https://joss.theoj.org/papers/10.21
 
 If you have found *STRAUSS* useful, please star the repository on [GitHub](https://github.com/james-trayford/strauss)! 
 
-<a class="github-button" href="https://github.com/james-trayford/strauss" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-star" data-size="large" aria-label="Star james-trayford/strauss on GitHub">Star</a>
 
 ## Acknowledgments
 *STRAUSS* is developed and provided free and open source, supported by a [UKRI Early Stage Research and Development Award](https://www.ukri.org/opportunity/early-stage-research-and-development-scheme/), grant code ST/X004651/1.
 
 The *STRAUSS* code has also benefited from funding via an [Royal Astronomical Society Education & Outreach grant award](https://ras.ac.uk/awards-and-grants/outreach/education-outreach-small-grants-scheme), providing hardware and software for sound development and spatialisation testing.
+
