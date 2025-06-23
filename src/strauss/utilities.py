@@ -97,6 +97,8 @@ def nested_dict_reassign(fromdict, todict):
     for k, v in fromdict.items():
         if isinstance(v, dict):
             # recurse through nested dictionaries
+            if k not in todict or not isinstance(todict[k], dict):
+                todict[k] = {} # Ensure target dict exists for nesting
             nested_dict_reassign(v, todict[k])
         else:
             # reassign todict value
@@ -118,9 +120,11 @@ def nested_dict_fill(fromdict, todict):
         if k not in todict:
             # assign todict value
             todict[k] = v
-        elif isinstance(v, dict):
+        elif isinstance(v, dict) and isinstance(todict.get(k), dict): # Check if todict[k] is also a dict
             # recurse through nested dictionaries
-            nested_dict_fill(todict[k], v)
+            nested_dict_fill(v, todict[k]) # Corrected: (from_sub, to_sub)
+        # If fromdict has a dict at k, but todict[k] is not a dict (or k not in todict),
+        # the initial `if k not in todict: todict[k] = v` handles it by copying the whole dict.
             
 def nested_dict_idx_reassign(fromdict, todict, idx):
     """
@@ -139,7 +143,10 @@ def nested_dict_idx_reassign(fromdict, todict, idx):
     for k, v in fromdict.items():
         if isinstance(v, dict):
             # recurse through nested dictionaries
-            nested_dict_idx_reassign(todict[k], v, idx)
+            # Make sure target sub-dictionary exists
+            if k not in todict or not isinstance(todict[k], dict):
+                todict[k] = {}
+            nested_dict_idx_reassign(v, todict[k], idx) # Corrected: (from_sub, to_sub, idx)
         else:
             # reassign todict value
             todict[k] = v[idx]
@@ -242,7 +249,13 @@ def resample(rate_in, samprate, wavobj):
                             int(wavobj.shape[0] * samprate / rate_in))
 
     interpolator = interp1d(time_old, wavobj.T)
-    new_wavobj = np.round(interpolator(time_new).T).astype(wavobj.dtype)
+    interpolated_values = interpolator(time_new).T
+
+    if np.issubdtype(wavobj.dtype, np.integer):
+        new_wavobj = np.round(interpolated_values).astype(wavobj.dtype)
+    else: # For float types, don't round before converting (or just keep as is if already float)
+        new_wavobj = interpolated_values.astype(wavobj.dtype)
+
     return(new_wavobj)
 
 @contextmanager

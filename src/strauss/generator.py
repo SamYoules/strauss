@@ -696,7 +696,8 @@ class Sampler(Generator):
                 wavs = sorted(Path(sampfiles).glob("*.[wW][aA][vV]"))
                 self.sampdict = {}
                 for w in wavs:
-                    filename = Path(w).name
+                    # w is already a Path-like object from glob, or a mock in tests
+                    filename = w.name # Use w.name directly
                     note = filename.split('_')[-1].split('.')[0]
                     self.sampdict[note] = str(w)
         self.load_samples()
