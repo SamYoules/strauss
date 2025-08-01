@@ -395,15 +395,7 @@ class Sequence:
                 prepare_clip(self, self.infile, self.name)
 
             else:
-                sp.check_call(['ffmpeg', '-y',
-                               '-f', 'lavfi',
-                               '-i', f'color=c=black:s={self.pars["dimensions"]}',
-                               '-frames', str(self.duration * int(self.pars['fps'])),
-                               '-r', self.pars["fps"],
-                               '-c:v', 'mpeg4',
-                               '-crf', self.pars["crf"],
-                               outfile],
-                               stdout=sp.DEVNULL, stderr=sp.STDOUT)
+                _create_blank_video(outfile, self.pars, duration=self.duration)
                 
                 
             # frames rendered for now...
@@ -471,15 +463,8 @@ class Sequence:
                     
                 else:
                     # blank video
-                    sp.check_call(['ffmpeg', '-y',
-                                   '-f', 'lavfi',
-                                   '-i', f'color=c=black:s={self.pars["dimensions"]}',
-                                   '-frames', str(nframes),
-                                   '-r', self.pars["fps"],
-                                   '-c:v', 'mpeg4',
-                                   '-crf', self.pars["crf"],
-                                   str(Path(self.path)/f"{ctype[pos]}.mp4")],
-                                   stdout=sp.DEVNULL, stderr=sp.STDOUT)
+                    _create_blank_video(str(Path(self.path)/f"{ctype[pos]}.mp4"),
+                                      self.pars, nframes=nframes)
                 pos += 1
                 
         #ffmpeg -i input.mp4 -vf "scale=iw*sar:ih,setsar=1" -vframes 1 filename.png
@@ -572,7 +557,7 @@ def render_transition(fromfile, tofile, toseq):
                      transfile],
                     stdout=sp.DEVNULL, stderr=sp.STDOUT)
 
-def prepare_clip(seq, infile, outtype):
+def _get_vf_scale_and_pad(seq):
     dims = seq.pars['dimensions'].split('x')
     margin = int(seq.pars['slide_min_margin'])
     filts = []
@@ -581,6 +566,28 @@ def prepare_clip(seq, infile, outtype):
         # this subtle brightening ensures all pixels are outside keyed range (above absolute black)
         filts.append(f"eq=brightness=0.04")
     filts.append(f"pad={dims[0]}:{dims[1]}:(ow-iw)/2:(oh-ih)/2")
+    return ",".join(filts)
+
+def _create_blank_video(outfile, pars, duration=None, nframes=None):
+    if duration:
+        frames = str(duration * int(pars['fps']))
+    elif nframes:
+        frames = str(nframes)
+    else:
+        raise ValueError("Either duration or nframes must be specified")
+
+    cmd = ['ffmpeg', '-y',
+           '-f', 'lavfi',
+           '-i', f'color=c=black:s={pars["dimensions"]}',
+           '-frames', frames,
+           '-r', pars["fps"],
+           '-c:v', 'mpeg4',
+           '-crf', pars["crf"],
+           outfile]
+    sp.check_call(cmd, stdout=sp.DEVNULL, stderr=sp.STDOUT)
+
+def prepare_clip(seq, infile, outtype):
+    vf_filter = _get_vf_scale_and_pad(seq)
 
     # extract audio
     sp.check_call(["ffmpeg", '-y',
@@ -591,7 +598,7 @@ def prepare_clip(seq, infile, outtype):
     # reencode video
     cmd = ["ffmpeg", '-y',
                    '-i', infile,
-                   "-vf", ",".join(filts),
+                   "-vf", vf_filter,
                    '-r', seq.pars["fps"],
                    '-c:v', 'mpeg4',
                    '-crf', seq.pars["crf"],
@@ -601,15 +608,8 @@ def prepare_clip(seq, infile, outtype):
     sp.check_call(cmd, stdout=sp.DEVNULL, stderr=sp.STDOUT)
     
 def generate_slide_video(seq, still, outtype, time=None, nframes=None):
-    dims = seq.pars['dimensions'].split('x')
-    margin = int(seq.pars['slide_min_margin'])
-    filts = []
-    filts.append(f"scale=w={int(dims[0])-margin}:h={int(dims[1])-margin}:force_original_aspect_ratio=1")
-    if not int(seq.pars['slide_key_black']):
-        # this subtle brightening ensures all pixels are outside keyed range (above absolute black)
-        filts.append(f"eq=brightness=0.04")
-    filts.append(f"pad={dims[0]}:{dims[1]}:(ow-iw)/2:(oh-ih)/2")
-    
+    vf_filter = _get_vf_scale_and_pad(seq)
+
     if time:
         dur = ['-t', str(time)]
     if nframes:
@@ -618,7 +618,7 @@ def generate_slide_video(seq, still, outtype, time=None, nframes=None):
     cmd = ["ffmpeg", '-y',
                    "-loop", "1",
                    '-i', still,
-                   "-vf", ",".join(filts),
+                   "-vf", vf_filter,
                    '-r', seq.pars["fps"],
                    dur[0], dur[1],
                    '-c:v', 'mpeg4',
