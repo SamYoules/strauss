@@ -1,0 +1,19 @@
+examples/LightCurveSoundfonts.ipynb:    "from strauss.animation import Animate\n",
+examples/LightCurveSoundfonts.ipynb:    "    pipe = Animate(temp_dir)\n",
+examples/LightCurveSoundfonts.py:    from strauss.animation import Animate
+examples/LightCurveSoundfonts.py:        pipe = Animate(temp_dir)
+examples/SonifyingData1D.ipynb:    "Example 4   Animate Mappings"
+examples/SonifyingData1D.ipynb:    "from strauss.animation import Animate\n",
+examples/SonifyingData1D.ipynb:    "    pipe = Animate(temp_dir, pars={\"background_video\": str(Path(here) / \"example_media\" / \"starfield.mov\")})\n",
+examples/AudioCaption.ipynb:    "from strauss.animation import Animate\n",
+examples/AudioCaption.ipynb:    "    pipe = Animate(temp_dir)\n",
+examples/DaySequence.ipynb:    "from strauss.animation import Animate\n",
+examples/DaySequence.ipynb:    "    pipe = Animate(temp_dir)\n",
+examples/SonifyingData1D.py:    from strauss.animation import Animate
+examples/SonifyingData1D.py:        pipe = Animate(temp_dir, pars={"background_video": str(Path(here) / "example_media" / "starfield.mov")})
+examples/DaySequence.py:    from strauss.animation import Animate
+examples/DaySequence.py:        pipe = Animate(temp_dir)
+examples/EarthSystem.py:    from strauss.animation import Animate
+examples/EarthSystem.py:        pipe = Animate(temp_dir)
+examples/EarthSystem.ipynb:    "from strauss.animation import Animate\n",
+examples/EarthSystem.ipynb:    "    pipe = Animate(temp_dir)\n",
