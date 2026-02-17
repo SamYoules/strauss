@@ -179,6 +179,11 @@ class Source:
            interpolating across the 0-2pi and 0-pi boundaries.
         
         """
+
+        # set up dictionaries to store the limits
+        self.lims = {}
+        self.plims = {}
+
         for key in self.mapped_quantities:
             rawvals = self.raw_mapping[key]
 
@@ -225,6 +230,11 @@ class Source:
                     # numerical values notate absolute limits
                     lims.append(l)
     
+
+            # lets store the limits from input for later conversion
+            self.lims[key] = lims
+            self.plims[key] = plims
+
             # limit mapped values from 0 to 1 NOTE: do we want to mix and match const and evo?
             if hasattr(mapvals[0], "__iter__"):
                 self.mapping[key] = []
