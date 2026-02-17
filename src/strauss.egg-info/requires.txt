@@ -1,0 +1,35 @@
+jupyterlab
+ipython
+matplotlib
+numpy
+pandas
+pychord
+pyyaml
+scipy
+setuptools>=4.2
+wavio
+wheel
+sounddevice
+sf2utils
+ipytone
+
+[:python_version >= "3.13"]
+audioop-lts
+
+[AI-TTS]
+
+[AI-TTS:python_version < "3.13"]
+coqui-tts
+
+[AI-TTS:python_version >= "3.13"]
+requries_python_3p12_or_below
+
+[default]
+tqdm
+
+[docs]
+sphinx
+sphinx-exec-code
+sphinxcontrib.jquery
+myst-parser
+sphinx-rtd-theme
